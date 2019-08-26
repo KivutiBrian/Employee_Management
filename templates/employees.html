@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+    <h1>This is the employees page</h1>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Add new Employee
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add an employee</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <form action="/employees" method="post">
+                <div class="form-group">
+                        <label for="fullName">Full name</label>
+                        <input type="text" name="fullName" class="form-control form-control-sm" required>
+                </div>
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select name="gender" class="form-control form-control-sm" required>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" class="form-control form-control-sm" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="text" name="phone" class="form-control form-control-sm" required>
+                </div>
+                <div class="form-group">
+                    <label for="department">Department</label>
+                    <select name="department" class="form-control form-control-sm" required>
+                        <option selected >Choose a department</option>
+                        {% for every in madepts %}
+                        <option value="{{ every.id }}">{{ every.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="natId">ID number</label>
+                    <input type="text" name="natId" class="form-control form-control-sm" required>
+                </div>
+                <div class="form-group">
+                    <label for="krapin">KRA pin</label>
+                    <input type="text" name="krapin" class="form-control form-control-sm" required>
+                </div>
+                <div class="form-group">
+                    <label for="basicsalary">Basic salary</label>
+                    <input type="text" name="basicsalary" class="form-control form-control-sm" required>
+                </div>
+                <div class="form-group">
+                    <label for="benefits">Benefits</label>
+                    <input type="text" name="benefits" class="form-control form-control-sm" required>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-sm btn-success">Submit</button>
+                </div>
+            </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<table class="table">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">fullName</th>
+              <th scope="col">gender</th>
+              <th scope="col">email</th>
+              <th scope="col"> phoneNumber</th>
+              <th scope="col">nationalId</th>
+              <th scope="col">kraPin</th>
+              <th scope="col">basicSalary</th>
+              <th scope="col">benefits</th>
+              <th scope="col">Department</th>
+              <th scope="col">Edit</th>
+              <th scope="col">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for each in employees %}
+            <tr>
+              <th scope="row">{{ each.id }}</th>
+              <td>{{ each.fullName }}</td>
+              <td>{{ each.gender }}</td>
+              <td>{{ each.email }}</td>
+              <td>{{ each.phoneNumber }}</td>
+              <td>{{ each. nationalId  }}</td>
+              <td>{{ each. kraPin }}</td>
+              <td>{{ each.basicSalary }}</td>
+              <td>{{ each.benefits }}</td>
+              <td>{{ each.department.name }}</td>
+              <td>
+                  <button data-toggle="modal" data-target="#exampleModal{{ each.id }}" class="btn btn-sm btn-warning">Edit</button>
+
+                  <!-- Modal -->
+                    <div class="modal fade" id="exampleModal{{ each.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Edit employee {{ each.id }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <form action="/employee/edit/{{ each.id }}" method="post">
+                                <div class="form-group">
+                                        <label for="fullName">Full name</label>
+                                        <input value="{{ each.fullName }}" type="text" name="fullName" class="form-control form-control-sm" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="gender">Gender</label>
+                                    <select name="gender" class="form-control form-control-sm" required>
+                                        <option selected >{{ each.gender }}</option>
+                                        <option value="M">Male</option>
+                                        <option value="F">Female</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input value="{{ each.email }}" type="email" name="email" class="form-control form-control-sm" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone Number</label>
+                                    <input value="{{ each.phoneNumber }}" type="text" name="phone" class="form-control form-control-sm" required>
+                                </div>
+{#                                <div class="form-group">#}
+{#                                    <label for="department">Department</label>#}
+{#                                    <select name="department" class="form-control form-control-sm" required>#}
+{#                                        <option selected value >{{ each.department.name }}</option>#}
+{#                                        {% for every in madepts %}#}
+{#                                        <option value="{{ every.id }}">{{ every.name }}</option>#}
+{#                                        {% endfor %}#}
+{#                                    </select>#}
+{#                                </div>#}
+{#                                <div class="form-group">#}
+                                    <label for="natId">ID number</label>
+                                    <input value="{{ each.nationalId }}" type="text" name="natId" class="form-control form-control-sm" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="krapin">KRA pin</label>
+                                    <input value="{{ each.kraPin }}" type="text" name="krapin" class="form-control form-control-sm" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="basicsalary">Basic salary</label>
+                                    <input value="{{ each.basicSalary }}" type="text" name="basicsalary" class="form-control form-control-sm" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="benefits">Benefits</label>
+                                    <input value="{{ each.benefits }}" type="text" name="benefits" class="form-control form-control-sm" required>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-sm btn-success">Submit</button>
+                                </div>
+                            </form>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+              </td>
+              <td>
+                  <form action="/employee/delete/{{ each.id }}" method="post">
+                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                  </form>
+
+              </td>
+            </tr>
+        {% endfor %}
+
+          </tbody>
+        </table>
+
+
+
+
+{% endblock %}

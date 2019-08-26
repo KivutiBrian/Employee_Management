@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+    <h1>{{ dep.name }} department</h1>
+
+    <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">fullName</th>
+              <th scope="col">gender</th>
+              <th scope="col">email</th>
+              <th scope="col"> phoneNumber</th>
+              <th scope="col">nationalId</th>
+              <th scope="col">kraPin</th>
+              <th scope="col">basicSalary</th>
+              <th scope="col">benefits</th>
+            </tr>
+          </thead>
+          <tbody>
+        {% for each in wafanyakazi %}
+            <tr>
+                <th scope="row">{{ each.id }}</th>
+              <td>{{ each.fullName }}</td>
+              <td>{{ each.gender }}</td>
+              <td>{{ each.email }}</td>
+              <td>{{ each.phoneNumber }}</td>
+              <td>{{ each. nationalId  }}</td>
+              <td>{{ each. kraPin }}</td>
+              <td>{{ each.basicSalary }}</td>
+              <td>{{ each.benefits }}</td>
+
+
+            </tr>
+        {% endfor %}
+          </tbody>
+        </table>
+
+{% endblock %}
