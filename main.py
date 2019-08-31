@@ -47,13 +47,16 @@ def departments():
         # check if a department alread exists
         if DepartmentModel.check_dept_exist(dept):
             # if true warn the user it already exists
-            print('already exists')
+            flash('The department already', 'danger')
+            return redirect(url_for('departments'))
         else:
             # if it is false, add the record to the database
 
             record = DepartmentModel(name=dept)
             record.create()
-            print('success')
+
+            flash('Department successfully added', 'success')
+
             return redirect(url_for('departments'))
 
     return render_template('departments.html', madepts=all_my_depts)
@@ -113,7 +116,7 @@ def edit_employees(id):
         gender = request.form['gender']
         email = request.form['email']
         phone = request.form['phone']
-        # deptId = request.form['department']
+        deptId = request.form['department']
         natId = request.form['natId']
         kraPin = request.form['krapin']
         basicsalary = request.form['basicsalary']
@@ -122,7 +125,7 @@ def edit_employees(id):
         update = EmployeeModel.edit_employee_by_id(id=id,name=name,gender=gender,
                                                    email=email,phone=phone,
                                                    nationalId=natId,kra=kraPin,basic=basicsalary,
-                                                   benefits=benefits)
+                                                   benefits=benefits,dptid=deptId)
 
         if update:
             print('update successful')

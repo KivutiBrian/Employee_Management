@@ -16,7 +16,7 @@ class DepartmentModel(db.Model):
     def check_dept_exist(cls,dpt_name):
         record = cls.query.filter_by(name=dpt_name)
 
-        print(cls.query.filter_by(name=dpt_name))
+        # print(cls.query.filter_by(name=dpt_name))
 
         if record.first():
             return True

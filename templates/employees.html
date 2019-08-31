@@ -5,8 +5,10 @@
     <h1>This is the employees page</h1>
 
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-  Add new Employee
-</button>
+    Add new Employee
+    </button>
+
+    {% include 'includes/_flash.html' %}
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -139,16 +141,18 @@
                                     <label for="phone">Phone Number</label>
                                     <input value="{{ each.phoneNumber }}" type="text" name="phone" class="form-control form-control-sm" required>
                                 </div>
-{#                                <div class="form-group">#}
-{#                                    <label for="department">Department</label>#}
-{#                                    <select name="department" class="form-control form-control-sm" required>#}
-{#                                        <option selected value >{{ each.department.name }}</option>#}
-{#                                        {% for every in madepts %}#}
-{#                                        <option value="{{ every.id }}">{{ every.name }}</option>#}
-{#                                        {% endfor %}#}
-{#                                    </select>#}
-{#                                </div>#}
-{#                                <div class="form-group">#}
+                                <div class="form-group">
+                                    <label for="department">Department</label>
+                                    <select name="department" class="form-control form-control-sm" required>
+                                        <option selected value="{{ each.department.id }}" >{{ each.department.name }}</option>
+
+                                        {% for every in madepts %}
+                                        <option value="{{ every.id }}">{{ every.name }}</option>
+                                        {% endfor %}
+
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <label for="natId">ID number</label>
                                     <input value="{{ each.nationalId }}" type="text" name="natId" class="form-control form-control-sm" required>
                                 </div>
