@@ -32,6 +32,10 @@ class EmployeeModel(db.Model):
     def fetch_all(cls):
         return  cls.query.all()
 
+    @classmethod
+    def fetch_emp_by_id(cls,id):
+        return cls.query.filter_by(id=id).first()
+
     # edit by id
     @classmethod
     def edit_employee_by_id(cls,id,name=None,gender=None,email=None,phone=None,nationalId=None,kra=None,basic=None,benefits=None,dptid=None):

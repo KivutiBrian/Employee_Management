@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+    <!-- Button trigger modal for Employee -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#generatePayroll">
+        Generate payroll
+    </button>
+
+
+
+    <div class="modal" id="generatePayroll" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Payroll</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form action="/generate/payroll/{{ employees.id }}" method="post">
+
+                      <div class="form-group">
+                          <label>Full name</label>
+                        <input type="text" readonly value="{{ employees.fullName }}" class="form-control"  >
+                      </div>
+
+                    <div class="form-group">
+                        <label>Basic salary</label>
+                        <input name="basic" type="text" readonly value="{{ employees.basicSalary }}" class="form-control"  >
+                    </div>
+
+                    <div class="form-group">
+                        <label>Benefits</label>
+                        <input name="benefits" type="text" readonly value="{{ employees.benefits }}" class="form-control"  >
+                    </div>
+
+                      <div class="form-group">
+                        <label for="exampleFormControlSelect2">Example multiple select</label>
+                        <select  name="month" class="form-control" id="exampleFormControlSelect2">
+                          <option selected disabled>Select Month</option>
+                          <option value="JAN">January</option>
+                          <option value="FEB">Feb</option>
+                          <option value="MAR">Mar</option>
+                          <option value="APR">APR</option>
+                          <option value="MAY">May</option>
+                          <option value="JUN">Jun</option>
+                          <option value="JUL">Jul</option>
+                          <option value="AUG">Aug</option>
+                          <option value="SEP">Sept</option>
+                          <option value="OCT">Oct</option>
+                          <option value="NOV">Nov</option>
+                          <option value="DEC">Dec</option>
+                        </select>
+                      </div>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+              </div>
+            </div>
+          </div>
+    </div>
+
+
+
+
+{% endblock %}

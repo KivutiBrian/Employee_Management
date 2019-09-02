@@ -5,6 +5,9 @@ from flask_sqlalchemy import SQLAlchemy
 # importing the configs
 from config.configs import Config,DevelopmentConfig,ProductionConfig
 
+# import the payroll
+from resources.payroll import Employee
+
 # init flask
 app = Flask(__name__)
 
@@ -144,6 +147,47 @@ def delete_employee(id):
             return redirect(url_for('employees'))
     except Exception as e :
         print('Unable to delete record at this this time')
+
+# payroll
+@app.route('/payrolls/<int:id>', methods=['GET','POST'])
+def payroll(id):
+    employee = EmployeeModel.fetch_emp_by_id(id)
+    return render_template('payroll.html', employees=employee)
+
+@app.route('/generate/payroll/<int:id>', methods=['POST'])
+def generate_payroll(id):
+    employee = EmployeeModel.fetch_emp_by_id(id)
+
+
+    basic = float(request.form['basic'])
+    benefits = float(request.form['benefits'])
+    month = request.form['month']
+
+    pay = Employee(basic_salary=basic,benefits=benefits)
+    # gross salary = basic + benefits
+    gross = pay.calculate_gross_salary()
+    print('GROSS SALARY:',gross)
+
+    nssf = pay.calculate_nssf()
+    print('NSSF CONTRIBUTION:',nssf)
+
+    taxable_income = pay.calculate_taxable_income() #the income after pension deduction = grossSalary - nssfContribution
+    print('Income after pension deduction(taxable income', taxable_income)
+
+    paye = pay.calculate_payee() #tax on the taxable income
+    print('PAYE(Tax on taxable income):', paye)
+
+    personal_relief = pay.personal_relief
+    print('Personal relief:', personal_relief)
+
+
+    # some missing code here...... to be continued
+
+
+    return 'Payroll generated'
+
+
+
 
 
 if __name__ == '__main__':
