@@ -62,7 +62,7 @@ class Employee:
         elif 8000 <= self.grossSalary <= 11999:
           nhif = 400
           self.nhifContribution = nhif
-          return
+          return nhif
         elif 12000 <= self.grossSalary <= 14999: #12000 - 14999
           nhif = 500
           self.nhifContribution = nhif
@@ -111,7 +111,7 @@ class Employee:
         self.total_tax_payable = tax_payable
 
         return tax_payable
-    
+
     # calculate net pay ie carry home pay
     def calculate_net_salary(self):
 

@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from config.configs import Config,DevelopmentConfig,ProductionConfig
 
 # import the payroll
-from resources.payroll import Employee
+from resources.employeeClass import Employee
 
 # init flask
 app = Flask(__name__)
@@ -161,9 +161,7 @@ def generate_payroll(id):
     print(type(employee))
 
     mapayroll = PayrollModel.fetch_by_id(id)
-    print(mapayroll)
-
-
+    print(type(mapayroll))
 
     if request.method == 'POST':
         basic = float(request.form['basic'])
@@ -212,6 +210,8 @@ def generate_payroll(id):
 
         # insert the record to the db
         emp_payroll.create_record()
+
+
 
     return render_template('payroll.html', employees=employee, payroll=mapayroll)
 

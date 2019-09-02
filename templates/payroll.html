@@ -22,8 +22,8 @@
                 <form action="/generate/payroll/{{ employees.id }}" method="post">
 
                     <div class="form-group">
-
-                        <input name="emp_id" type="hidden" readonly value="{{ employees.id }}" class="form-control"  >
+                        <label>Employee ID</label>
+                        <input name="emp_id" type="text" readonly value="{{ employees.id }}" class="form-control"  >
                     </div>
 
                     <div class="form-group">
