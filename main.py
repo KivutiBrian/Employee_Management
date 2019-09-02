@@ -20,6 +20,7 @@ db = SQLAlchemy(app)
 # models
 from models.department import DepartmentModel
 from  models.employee import EmployeeModel
+from models.payroll import PayrollModel
 
 
 @app.before_first_request
@@ -152,40 +153,66 @@ def delete_employee(id):
 @app.route('/payrolls/<int:id>', methods=['GET','POST'])
 def payroll(id):
     employee = EmployeeModel.fetch_emp_by_id(id)
+
+
     return render_template('payroll.html', employees=employee)
 
-@app.route('/generate/payroll/<int:id>', methods=['POST'])
+@app.route('/generate/payroll/<int:id>', methods=['GET','POST'])
 def generate_payroll(id):
+    # fetch an employee by the id
     employee = EmployeeModel.fetch_emp_by_id(id)
 
+    payroll = PayrollModel.fetch_payroll_by_id(id)
 
-    basic = float(request.form['basic'])
-    benefits = float(request.form['benefits'])
-    month = request.form['month']
+    if request.method == 'POST':
+        basic = float(request.form['basic'])
+        benefits = float(request.form['benefits'])
+        month = request.form['month']
+        emp_id = request.form['emp_id']
 
-    pay = Employee(basic_salary=basic,benefits=benefits)
-    # gross salary = basic + benefits
-    gross = pay.calculate_gross_salary()
-    print('GROSS SALARY:',gross)
+        # create an object the the Employee class that we created as the task assignment on the python basics
+        pay = Employee(basic_salary=basic,benefits=benefits)
 
-    nssf = pay.calculate_nssf()
-    print('NSSF CONTRIBUTION:',nssf)
+        # gross salary = basic + benefits
+        gross = pay.calculate_gross_salary()
+        print('GROSS SALARY:',gross)
 
-    taxable_income = pay.calculate_taxable_income() #the income after pension deduction = grossSalary - nssfContribution
-    print('Income after pension deduction(taxable income', taxable_income)
+        nssf = pay.calculate_nssf()
+        print('NSSF CONTRIBUTION:',nssf)
 
-    paye = pay.calculate_payee() #tax on the taxable income
-    print('PAYE(Tax on taxable income):', paye)
+        # taxable income
+        taxable_income = pay.calculate_taxable_income() #the income after pension deduction = grossSalary - nssfContribution
+        print('INCOME AFTER PENSION DEDUCTION(TAXABLE INCOME)', taxable_income)
 
-    personal_relief = pay.personal_relief
-    print('Personal relief:', personal_relief)
+        # PAYEE
+        paye = pay.calculate_payee() #tax on the taxable income
+        print('PAYE(Tax on taxable income):', paye)
 
+        # Relief
+        personal_relief = pay.personal_relief
+        print('PERSONAL RELIEF:', personal_relief)
 
-    # some missing code here...... to be continued
+        # tax payable: ie PAYEE
+        tax_payable = pay.calculate_tax_payable()
+        print('TAX PAYABLE(PAYEE):', tax_payable)
 
+        # nhif contribution
+        nhif_contribution = pay.calculate_nhif()
+        print('NHIF CONTRIBUTION:',nhif_contribution)
 
-    return 'Payroll generated'
+        # net pay: carry home pay
+        net_salary = pay.calculate_net_salary()
+        print('NET SALARY(CARRY HOME PAY):',net_salary)
 
+        # sending to database
+        emp_payroll = PayrollModel(month=month,gross=gross,nssf=nssf,nhif=nhif_contribution,taxable_income=taxable_income,
+                                   payee=paye,personal_relief=personal_relief,tax_payable=tax_payable,net_salary=net_salary,
+                                   employee_id=emp_id)
+
+        # insert the record to the db
+        emp_payroll.create_record()
+
+    return render_template('payroll.html', employees=employee)
 
 
 

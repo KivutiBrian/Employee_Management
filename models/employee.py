@@ -12,6 +12,7 @@ class EmployeeModel(db.Model):
     basicSalary = db.Column(db.Float, nullable=False)
     benefits = db.Column(db.Float, nullable=False)
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))
+    payrolls = db.relationship('PayrollModel', backref='payroll', lazy=True)
 
     # CREATE
     def create_record(self):

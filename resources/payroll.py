@@ -8,6 +8,9 @@ class Employee:
     nhifContribution = 0
     payee = 0 #PAYE : Tax on taxable income
     personal_relief = 1408
+    total_tax_payable = 0
+    netSalary = 0
+
 
   # constructor
     def __init__(self,basic_salary, benefits ):
@@ -18,6 +21,8 @@ class Employee:
         self.calculate_nhif()
         self.calculate_taxable_income()
         self.calculate_payee()
+        self.calculate_taxable_income()
+        self.calculate_net_salary()
 
   # calculate the gross-salary (bs + benefits)
     def calculate_gross_salary(self):
@@ -96,8 +101,24 @@ class Employee:
           self.payee = tax
           return tax
 
+    # calculate the net tax of the relief
+    def calculate_tax_payable(self):
 
+        # tax_payable = payee(the tax on taxable income) - personal_relief
 
+        tax_payable = self.payee - self.personal_relief
+
+        self.total_tax_payable = tax_payable
+
+        return tax_payable
+    
+    # calculate net pay ie carry home pay
+    def calculate_net_salary(self):
+
+        # net_salary = Taxable_income - deductions
+        net_sal = self.taxableIncome - (self.nhifContribution + self.total_tax_payable)
+
+        return  net_sal
 
 
 # emp1 = Employee(15000,  0 )

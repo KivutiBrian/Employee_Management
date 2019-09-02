@@ -13,7 +13,7 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Payroll</h5>
+                <h5 class="modal-title">Generate payroll</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -21,10 +21,15 @@
               <div class="modal-body">
                 <form action="/generate/payroll/{{ employees.id }}" method="post">
 
-                      <div class="form-group">
+                    <div class="form-group">
+
+                        <input name="emp_id" type="hidden" readonly value="{{ employees.id }}" class="form-control"  >
+                    </div>
+
+                    <div class="form-group">
                           <label>Full name</label>
                         <input type="text" readonly value="{{ employees.fullName }}" class="form-control"  >
-                      </div>
+                    </div>
 
                     <div class="form-group">
                         <label>Basic salary</label>
@@ -60,6 +65,42 @@
             </div>
           </div>
     </div>
+
+
+        {#    table #}
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">PAYROLL_ID</th>
+          <th scope="col">MONTH</th>
+          <th scope="col">GROSS SALARY</th>
+          <th scope="col">NSSF CONTRIBUTION </th>
+          <th scope="col">NHIF CONTRIBUTION </th>
+          <th scope="col">TAXABLE INCOME</th>
+          <th scope="col">PAYE</th>
+          <th scope="col">PERSONAL-RELIEF</th>
+          <th scope="col">TAX PAYABLE</th>
+          <th scope="col">NET SALARY</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for payroll in mypayroll %}
+        <tr>
+          <th scope="row">{{ payroll.id }}</th>
+          <td>{{ payroll.month }}</td>
+          <td>{{ payroll.gross }}</td>
+          <td>{{ payroll.nssf }}</td>
+          <td>{{ payroll.nhif }}</td>
+          <td>{{ payroll.taxable_income }}</td>
+          <td>{{ payroll.payee }}</td>
+          <td>{{ payroll.personal_relief }}</td>
+          <td>{{ payroll.tax_payable }}</td>
+          <td>{{ payroll.net_salary }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
 
 
 
