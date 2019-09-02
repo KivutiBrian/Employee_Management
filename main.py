@@ -73,8 +73,6 @@ def department_employees(id):
 
     employees = dpt_emp.employee
 
-
-
     return render_template('departmentemp.html', wafanyakazi=employees,
                            dep=dpt_emp)
 
@@ -149,20 +147,23 @@ def delete_employee(id):
     except Exception as e :
         print('Unable to delete record at this this time')
 
-# payroll
-@app.route('/payrolls/<int:id>', methods=['GET','POST'])
-def payroll(id):
-    employee = EmployeeModel.fetch_emp_by_id(id)
-
-
-    return render_template('payroll.html', employees=employee)
+# # payroll
+# @app.route('/payrolls/<int:id>', methods=['GET','POST'])
+# def payroll(id):
+#     employee = EmployeeModel.fetch_emp_by_id(id)
+#
+#     return render_template('payroll.html', employees=employee)
 
 @app.route('/generate/payroll/<int:id>', methods=['GET','POST'])
 def generate_payroll(id):
     # fetch an employee by the id
     employee = EmployeeModel.fetch_emp_by_id(id)
+    print(type(employee))
 
-    payroll = PayrollModel.fetch_payroll_by_id(id)
+    mapayroll = PayrollModel.fetch_by_id(id)
+    print(mapayroll)
+
+
 
     if request.method == 'POST':
         basic = float(request.form['basic'])
@@ -212,7 +213,7 @@ def generate_payroll(id):
         # insert the record to the db
         emp_payroll.create_record()
 
-    return render_template('payroll.html', employees=employee)
+    return render_template('payroll.html', employees=employee, payroll=mapayroll)
 
 
 

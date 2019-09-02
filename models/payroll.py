@@ -19,8 +19,9 @@ class PayrollModel(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    # fetch payroll by id
     @classmethod
-    def fetch_payroll_by_id(cls,id):
+    def fetch_by_id(cls,id):
         return cls.query.filter_by(id=id).first()
+
+
 
