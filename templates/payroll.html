@@ -3,13 +3,13 @@
 {% block body %}
 
     <!-- Button trigger modal for Employee -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#generatePayroll">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#generatePayroll{{ employees.id }}">
         Generate payroll
     </button>
 
 
 
-    <div class="modal" id="generatePayroll" tabindex="-1" role="dialog">
+    <div class="modal" id="generatePayroll{{ employees.id }}" tabindex="-1" role="dialog">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -85,7 +85,7 @@
         </tr>
       </thead>
       <tbody>
-
+        {% for payroll in payrolls  %}
         <tr>
           <th scope="row">{{ payroll.id }}</th>
           <td>{{ payroll.month }}</td>
@@ -98,6 +98,7 @@
           <td>{{ payroll.tax_payable }}</td>
           <td>{{ payroll.net_salary }}</td>
         </tr>
+      {% endfor %}
 
       </tbody>
     </table>

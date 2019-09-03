@@ -158,10 +158,9 @@ def delete_employee(id):
 def generate_payroll(id):
     # fetch an employee by the id
     employee = EmployeeModel.fetch_emp_by_id(id)
-    print(type(employee))
+    mapayroll = employee.payrolls
+    print(mapayroll)
 
-    mapayroll = PayrollModel.fetch_by_id(id)
-    print(type(mapayroll))
 
     if request.method == 'POST':
         basic = float(request.form['basic'])
@@ -211,9 +210,10 @@ def generate_payroll(id):
         # insert the record to the db
         emp_payroll.create_record()
 
+        return render_template('payroll.html', employees=employee, payrolls=mapayroll)
 
 
-    return render_template('payroll.html', employees=employee, payroll=mapayroll)
+    return render_template('payroll.html', employees=employee, payrolls=mapayroll)
 
 
 
