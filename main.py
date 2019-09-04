@@ -25,7 +25,7 @@ from models.payroll import PayrollModel
 # before any request create the table
 @app.before_first_request
 def create_tables():
-    db.drop_all()
+    db.create_all()
 
 # home route
 @app.route('/')
