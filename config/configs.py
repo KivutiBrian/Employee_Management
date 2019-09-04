@@ -9,4 +9,4 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     DEBUG=False
     SQLALCHEMY_DATABASE_URI = 'postgres://kgnjbgcdxvalcc:ad5883d755db80637caa2ae80c98d6d712aeaa80eaf2781b46eb01e8d09fe479@ec2-184-73-216-48.compute-1.amazonaws.com:5432/dfncka2a8m051s'
-    SECREY_KEY = 'SOME-RANDOM-KEY'
+    SECRET_KEY = 'SOME-RANDOM-KEY'

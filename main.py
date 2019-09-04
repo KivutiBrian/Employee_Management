@@ -25,7 +25,7 @@ from models.payroll import PayrollModel
 # before any request create the table
 @app.before_first_request
 def create_tables():
-    db.create_all()
+    db.drop_all()
 
 # home route
 @app.route('/')
@@ -35,7 +35,6 @@ def home():
 # departments route
 @app.route('/departments', methods=['GET','POST'])
 def departments():
-
     # fetching all departments and store them in a variable called all_my_depts
     all_my_depts = DepartmentModel.fetch_all_departments()
 
@@ -55,12 +54,9 @@ def departments():
             return redirect(url_for('departments'))
         else:
             # if it is false, add the record to the database
-
             record = DepartmentModel(name=dept)
             record.create()
-
             flash('Department successfully added', 'success')
-
             return redirect(url_for('departments'))
 
     return render_template('departments.html', madepts=all_my_depts)
