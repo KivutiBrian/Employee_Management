@@ -12,7 +12,7 @@ from resources.employeeClass import Employee
 app = Flask(__name__)
 
 # setting the app to use to development config
-app.config.from_object(DevelopmentConfig)
+app.config.from_object(ProductionConfig)
 
 # SQLALCHEMY
 db = SQLAlchemy(app)
@@ -22,7 +22,7 @@ from models.department import DepartmentModel
 from  models.employee import EmployeeModel
 from models.payroll import PayrollModel
 
-
+# before any request create the table
 @app.before_first_request
 def create_tables():
     db.create_all()
@@ -65,7 +65,7 @@ def departments():
 
     return render_template('departments.html', madepts=all_my_depts)
 
-
+# getting the department's employee
 @app.route('/department/employees/<int:id>', methods=['GET','POST'])
 def department_employees(id):
 
@@ -97,7 +97,7 @@ def employees():
         benefits = request.form['benefits']
 
         if EmployeeModel.check_nationalId_exists(natId):
-            print('already exists')
+            flash('Employee exists', 'danger')
             return redirect(url_for('employees'))
         else:
             emp = EmployeeModel(fullName=name,gender=gender,email=email,phoneNumber=phone,nationalId=natId,
@@ -105,7 +105,8 @@ def employees():
 
             emp.create_record()
 
-            print('success')
+            flash('Employee has successfully been added!', 'danger')
+
 
             return redirect(url_for('employees'))
 
@@ -217,7 +218,9 @@ def generate_payroll(id):
         # insert the record to the db
         emp_payroll.create_record()
 
-        return redirect(url_for('success'))
+        flash('PAYROLL HAS SUCCESSFULLY BEEN GENERATED', 'success')
+
+        return redirect(url_for('generate_payroll',id=emp_id))
 
 
     return render_template('payroll.html', employees=employee, payrolls=mapayroll)
