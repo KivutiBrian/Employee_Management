@@ -71,6 +71,54 @@ class Employee:
           nhif = 600
           self.nhifContribution = nhif
           return nhif
+        elif 20000 <= self.grossSalary <= 24999:
+            nhif = 750
+            self.nhifContribution = nhif
+            return nhif
+        elif 25000 <= self.grossSalary <= 29999:
+            nhif = 850
+            self.nhifContribution = nhif
+            return nhif
+        elif 30000 <= self.grossSalary <= 34999:
+            nhif = 900
+            self.nhifContribution = nhif
+            return nhif
+        elif 35000 <= self.grossSalary <= 39999:
+            nhif = 950
+            self.nhifContribution = nhif
+            return nhif
+        elif 40000 <= self.grossSalary <= 44999:
+            nhif = 1000
+            self.nhifContribution = nhif
+            return nhif
+        elif 45000 <= self.grossSalary <= 49999:
+            nhif = 1100
+            self.nhifContribution = nhif
+            return nhif
+        elif 50000 <= self.grossSalary <= 59999:
+            nhif = 1200
+            self.nhifContribution = nhif
+            return nhif
+        elif 60000 <= self.grossSalary <= 69999:
+            nhif = 1300
+            self.nhifContribution = nhif
+            return nhif
+        elif 70000 <= self.grossSalary <= 79999:
+            nhif = 1400
+            self.nhifContribution = nhif
+            return nhif
+        elif 80000 <= self.grossSalary <= 89999:
+            nhif = 1500
+            self.nhifContribution = nhif
+            return nhif
+        elif 90000 <= self.grossSalary <= 99999:
+            nhif = 1600
+            self.nhifContribution =  nhif
+            return nhif
+        elif self.grossSalary >= 100000:
+            nhif = 1700
+            self.nhifContribution = nhif
+            return nhif
 
     # calculate the NET SALARY
     def calculate_taxable_income(self):
@@ -100,6 +148,21 @@ class Employee:
           tax = tier1 * 0.1 + 0.15 * remainder
           self.payee = tax
           return tax
+        elif 23886 <= self.taxableIncome <= 35472:
+            remainder = self.taxableIncome - tier1 - tier2
+            tax = (tier1 * 0.1) + (tier2 * 0.15) + (0.2 * remainder)
+            self.payee = tax
+            return tax
+        elif 35473 <= self.taxableIncome <= 47059:
+            remainder = self.taxableIncome - tier1 - tier2 - tier3
+            tax = (tier1 * 0.1) + (tier2 * 0.15) + (tier3 * 0.2) + (0.25 * remainder)
+            self.payee = tax
+            return tax
+        elif self.taxableIncome >= 47060:
+            remainder = self.taxableIncome - tier1 - tier2 - tier3 - tier4
+            tax = (tier1 * 0.1) + (tier2 * 0.15) + (tier3 * 0.2) + (0.25 * tier4) + (0.3 * remainder)
+            self.payee = tax
+            return tax
 
     # calculate the net tax of the relief
     def calculate_tax_payable(self):

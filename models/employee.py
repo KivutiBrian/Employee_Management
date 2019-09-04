@@ -10,7 +10,7 @@ class EmployeeModel(db.Model):
     nationalId = db.Column(db.String(), nullable=False, unique=True)
     kraPin = db.Column(db.String(), nullable=False, unique=True)
     basicSalary = db.Column(db.Float, nullable=False)
-    benefits = db.Column(db.Float(2), nullable=False)
+    benefits = db.Column(db.Float, nullable=False)
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))
     payrolls = db.relationship('PayrollModel', backref='payroll', lazy=True)
 

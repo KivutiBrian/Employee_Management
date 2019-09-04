@@ -130,22 +130,25 @@ def edit_employees(id):
                                                    benefits=benefits,dptid=deptId)
 
         if update:
-            print('update successful')
+            flash('Successfully updated', 'success')
             return redirect(url_for('employees'))
         else:
-            print('record not found')
+            flash('Unable to delete', 'danger')
             return redirect(url_for('employees'))
 
 @app.route('/employee/delete/<int:id>', methods=['POST'])
 def delete_employee(id):
-    delete = EmployeeModel.delete_by_id(id)
+
 
     try:
+        delete = EmployeeModel.delete_by_id(id)
         if delete:
-            print('Successfully deleted')
+            flash('Employee successfully delete', 'success')
             return redirect(url_for('employees'))
     except Exception as e :
-        print('Unable to delete record at this this time')
+        flash('This employee has payrolls, you cannot delete the record', 'danger')
+        return redirect(url_for('employees'))
+
 
 # # payroll
 # @app.route('/payrolls/<int:id>', methods=['GET','POST'])
@@ -153,6 +156,10 @@ def delete_employee(id):
 #     employee = EmployeeModel.fetch_emp_by_id(id)
 #
 #     return render_template('payroll.html', employees=employee)
+
+@app.route('/success')
+def success():
+    return render_template('success_payroll.html')
 
 @app.route('/generate/payroll/<int:id>', methods=['GET','POST'])
 def generate_payroll(id):
@@ -210,7 +217,7 @@ def generate_payroll(id):
         # insert the record to the db
         emp_payroll.create_record()
 
-        return render_template('payroll.html', employees=employee, payrolls=mapayroll)
+        return redirect(url_for('success'))
 
 
     return render_template('payroll.html', employees=employee, payrolls=mapayroll)
