@@ -101,7 +101,7 @@ def employees():
 
             emp.create_record()
 
-            flash('Employee has successfully been added!', 'danger')
+            flash('Employee has successfully been added!', 'success')
 
 
             return redirect(url_for('employees'))
