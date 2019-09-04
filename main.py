@@ -12,7 +12,7 @@ from resources.employeeClass import Employee
 app = Flask(__name__)
 
 # setting the app to use to development config
-app.config.from_object(ProductionConfig)
+app.config.from_object(DevelopmentConfig)
 
 # SQLALCHEMY
 db = SQLAlchemy(app)
